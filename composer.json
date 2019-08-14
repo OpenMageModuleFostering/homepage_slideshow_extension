@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Homepage_Slideshow_Extension",
+    "type": "magento-module",
+    "license": "Academic--Free--License--(AFL)--v.3.0",
+    "homepage": "",
+    "description": "CMSMART Magento Slideshow Home Page Extension",
+    "authors": [
+    {
+        "name": "Anh Hien",
+        "email": "hienda@netbase.vn"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

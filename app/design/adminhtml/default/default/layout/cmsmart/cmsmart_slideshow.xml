@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+			 <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
+            <action method="addItem"><type>js</type><name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name><params/></action>
+        </reference>
+    </default>
+    <slideshow_admin_manage_slideshow_index>
+		
+        <update handle="editor" />
+        <reference name="content">
+            <block type="slideshow/manage_slideshow" name="slideshow" />
+        </reference>
+    </slideshow_admin_manage_slideshow_index>
+	<slideshow_admin_manage_revolution_index>
+		
+        <update handle="editor" />
+        <reference name="content">
+            <block type="slideshow/manage_revolution" name="revolution" />
+        </reference>
+    </slideshow_admin_manage_revolution_index>
+	
+</layout>

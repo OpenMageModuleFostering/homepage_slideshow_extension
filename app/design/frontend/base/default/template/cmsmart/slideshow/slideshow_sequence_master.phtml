@@ -1,0 +1,77 @@
+<?php
+/**
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+*/
+	$enabled			              =	 Mage::getStoreConfig('slideshow/settings/enabled');
+	$autosequence		  			  =	 Mage::getStoreConfig('slideshow/settings/autosequence');
+	$navigationsequence	  			  =	 Mage::getStoreConfig('slideshow/settings/navigationsequence');
+	$preloader	  		  			  =	 Mage::getStoreConfig('slideshow/settings/preloader');
+	$navigationSkip	   				  =	 Mage::getStoreConfig('slideshow/settings/navigationSkip');
+	$maxwidth_images_sequence	      =	 Mage::getStoreConfig('slideshow/settings/maxwidth_images_sequence');
+	$maxheight_images_sequence	      =	 Mage::getStoreConfig('slideshow/settings/maxheight_images_sequence');
+	$background	      =	 Mage::getStoreConfig('slideshow/settings/background');
+	
+	$slideshow 			  			  =  $this->getSequencemasteCollection();	
+?>
+<style>
+	#sequence .sequence-canvas img.images_sequence{
+		max-height: <?php echo $maxwidth_images_sequence;?>px;
+		max-width: <?php echo $maxheight_images_sequence;?>px;
+	}
+</style>
+
+<?php 
+	if($enabled):
+?>
+<link rel='stylesheet' id='sequence_master'  href="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/sequence_master/sequencejs-theme.sliding-horizontal-parallax.css');?>" type='text/css' media='all'>	
+<link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/jQuery.min.1.10.js') ?>"></script>
+<script>
+		
+		 if (typeof NetBase == 'undefined'){
+		    document.write(unescape('%3Cscript src="../../scripts/jquery-min.js" %3E%3C/script%3E'));
+		 }
+</script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/sequence_master/jquery.sequence.js') ?>"></script>
+<script type="text/javascript">
+	var master=NetBase.noConflict();
+	master(document).ready(function(){
+		var options = {
+			autoPlay: <?php echo $autosequence; ?>,
+			nextButton: <?php echo $navigationsequence; ?>,
+			prevButton: <?php echo $navigationsequence; ?>,
+			navigationSkip:<?php echo $navigationSkip; ?>
+		};
+		
+		var sequence = master("#sequence").sequence(options).data("sequence");
+
+		sequence.afterLoaded = function(){
+			master(".sequence-prev, .sequence-next").fadeIn(500);
+		}
+	});
+</script>
+<div id="sequence" style="background: url(<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cmsmart/slideshow/'.$background;?>); ">
+	<img class="sequence-prev" src="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/images/sequencemaste/bt-prev.png') ?>" alt="Previous" />
+	<img class="sequence-next" src="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/images/sequencemaste/bt-next.png') ?>" alt="Next" />
+	<ul class="sequence-canvas">
+			<?php foreach ($slideshow as $data) {?>
+				<li>
+					<div class="info">
+						<h2><?php echo $data['title']?></h2>
+						<?php $filter = new Mage_Widget_Model_Template_Filter();?>
+						<p><?php echo $filter->filter($data['post_content'])?></p>
+					</div>
+					<img class="sky" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$data['imagesky']?>" alt="<?php echo $data['title']?>" /> 
+					<img class="images_sequence <?php echo $data['class_images_sequence']?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$data['image']?>" alt="<?php echo $data['title']?>" />
+				</li>
+			<?php }?>
+			</ul>
+</div>
+<?php endif;?>

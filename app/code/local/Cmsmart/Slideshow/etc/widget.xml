@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+-->
+<widgets>
+    <slideshow type="slideshow/slideshow" translate="name description" module="slideshow">
+        <name>Slideshow Homepage</name>
+        <description>Slideshow Homepage</description>
+		 <parameters>
+			<template translate="label">
+                <label>Template</label>
+                <visible>1</visible>
+                <type>select</type>
+				<values>
+                    <revolution translate="label">
+                        <value>cmsmart/slideshow/slideshow_revolutioncontent.phtml</value>
+                        <label>Revolution</label>
+                    </revolution>
+                    <camera translate="label">
+                        <value>cmsmart/slideshow/slideshow_camera.phtml</value>
+                        <label>Camera</label>
+                    </camera>
+					<sequence_master translate="label">
+                        <value>cmsmart/slideshow/slideshow_sequence_master.phtml</value>
+                        <label>Sequence Master</label>
+                    </sequence_master>
+                </values>
+            </template>
+			<content_slideshow>
+                <label>Content Slideshow</label>
+				<description>If Template = "Revolution"</description>
+                <visible>1</visible>
+                <type>select</type>
+                <source_model>slideshow/content</source_model>
+            </content_slideshow>
+						
+			<fullWidth translate="label">
+                 <label>Full Width</label>
+				 <visible>1</visible>
+                 <type>select</type> 
+				 <source_model>slideshow/onoff</source_model>
+           </fullWidth>
+		</parameters>	
+    </slideshow>
+</widgets> 

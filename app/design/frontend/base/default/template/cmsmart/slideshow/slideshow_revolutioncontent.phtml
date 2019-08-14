@@ -1,0 +1,99 @@
+<?php
+
+/**
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+*/
+	$enabled		=	 Mage::getStoreConfig('slideshow/settings/enabled');
+	$delay			=	 Mage::getStoreConfig('slideshow/settings/delay');
+	$startheight	=	 Mage::getStoreConfig('slideshow/settings/startheight');
+	$startwidth	=	 Mage::getStoreConfig('slideshow/settings/startwidth');
+	$hideThumbs	=	 Mage::getStoreConfig('slideshow/settings/hideThumbs');
+	$thumbWidth	=	 Mage::getStoreConfig('slideshow/settings/thumbWidth');
+	$thumbHeight	=	 Mage::getStoreConfig('slideshow/settings/thumbHeight');
+	$thumbAmount	=	 Mage::getStoreConfig('slideshow/settings/thumbAmount');
+	$navigationType	=	 Mage::getStoreConfig('slideshow/settings/navigationType');
+	$navigationArrows	=	 Mage::getStoreConfig('slideshow/settings/navigationArrows');
+	 
+	$navigationStyle	=	 Mage::getStoreConfig('slideshow/settings/navigationStyle');
+	$touchenabled	=	 Mage::getStoreConfig('slideshow/settings/touchenabled');
+	$onHoverStop	=	 Mage::getStoreConfig('slideshow/settings/onHoverStop');
+	$navOffsetHorizontal	=	 Mage::getStoreConfig('slideshow/settings/navOffsetHorizontal');
+	$navOffsetVertical	=	 Mage::getStoreConfig('slideshow/settings/navOffsetVertical');
+	$shadow	=	 Mage::getStoreConfig('slideshow/settings/shadow');
+	if($this->getData('fullWidth')){
+		$fullWidth	=	 $this->getData('fullWidth');
+	} else {
+		$fullWidth	=	 Mage::getStoreConfig('slideshow/settings/fullWidth');
+	}
+	
+?>
+<?php
+	if($enabled) :
+		if(count($this->getRevolution())) :
+?>
+	<link rel='stylesheet' id='netbase-css'  href="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/revolution/style.css');?>" type='text/css' media='all'>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/rs-plugin/js/jquery.1.7.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/rs-plugin/js/jquery.themepunch.plugins.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/rs-plugin/js/jquery.themepunch.revolution.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/rs-plugin/js/jquery-ui-1.8.21.custom.min.js'); ?>"></script>
+	<?php if($this->getData('fullWidth') == 'off') {?>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/previewjs/preview-normal.js'); ?>"></script>
+	<?php } else { ?>
+	<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/previewjs/preview-fullwidth.js'); ?>"></script>
+	<?php }?>
+	<link rel='stylesheet' id='netbase-css'  href="<?php echo $this->getJsUrl('cmsmart/slideshow/revolution/rs-plugin/css/settings.css');?>" type='text/css' media='all'>
+	<link href='http://fonts.googleapis.com/css?family=Share' rel='stylesheet' type='text/css' />
+		<div class="fullwidthbanner responsive">					
+					<div class="netbase-revolutioncontent<?php echo $fullWidth?>  <?php if($fullWidth == 'on') {?>fullwidthbanner <?php } else {?> banner <?php } ?>">
+							<?php foreach ($this->getRevolution() as $bid): ?>
+								<?php if (!empty($bid)): ?>
+										<?php echo $bid['post_content']; ?>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<div class="tp-bannertimer"></div>												
+					</div>					
+		</div>
+		<script type="text/javascript">
+								
+				var revolutioncontent=NetBase.noConflict();
+				
+				revolutioncontent(document).ready(function() {
+				
+				if (revolutioncontent.fn.cssOriginal!=undefined)
+					revolutioncontent.fn.css = revolutioncontent.fn.cssOriginal;
+
+					revolutioncontent('.netbase-revolutioncontent<?php echo $fullWidth?>').revolution(
+						{	
+							delay:<?php echo $delay;?>,												
+							startheight:<?php echo $startheight; ?>,							
+							startwidth:<?php echo $startwidth; ?>,
+							hideThumbs:200,
+							thumbWidth:100,				
+							thumbHeight:50,
+							thumbAmount:3,
+							navigationType:'<?php echo $navigationType; ?>',					//bullet, thumb, none, both		(No Thumbs In FullWidth Version !)
+							navigationArrows:'<?php echo $navigationArrows; ?>',		//nexttobullets, verticalcentered, none
+							navigationStyle:'<?php echo $navigationStyle; ?>',				//round,square,navbar
+							
+							touchenabled:'<?php echo $touchenabled; ?>',						// Enable Swipe Function : on/off
+							onHoverStop:'<?php echo $onHoverStop; ?>',						// Stop Banner Timet at Hover on Slide on/off
+							
+							navOffsetHorizontal:0,
+							navOffsetVertical:20,
+							
+							shadow:<?php echo $shadow; ?>,								//0 = no Shadow, 1,2,3 = 3 Different Art of Shadows  (No Shadow in Fullwidth Version !)
+							fullWidth:'<?php echo $fullWidth;?>'						
+						});	
+
+					});
+					
+			</script>
+	<?php endif; ?>
+<?php endif; ?>

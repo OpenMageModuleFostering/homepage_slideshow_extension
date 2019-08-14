@@ -1,0 +1,130 @@
+<?php
+/**
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+*/
+	$enabled						=	 Mage::getStoreConfig('slideshow/settings/enabled');
+	$style							=	 Mage::getStoreConfig('slideshow/settings/style'); 
+	$imagewidth						=	 Mage::getStoreConfig('slideshow/settings/imagewidth');
+	$imageheight					=	 Mage::getStoreConfig('slideshow/settings/imageheight');
+	$description					=	 Mage::getStoreConfig('slideshow/settings/description');
+		
+	$slidingtime					=	 Mage::getStoreConfig('slideshow/settings/slidingtime');
+	$slidingeffecttime				=	 Mage::getStoreConfig('slideshow/settings/slidingeffecttime');	
+	$loader							=	 Mage::getStoreConfig('slideshow/settings/loader');
+	$navigation						=	 Mage::getStoreConfig('slideshow/settings/navigation');
+	$easing							=	 Mage::getStoreConfig('slideshow/settings/easing');
+	
+	if($this->getData('fullWidth')){
+		
+		$fullWidth	=	 $this->getData('fullWidth');
+	} else {
+		
+		$fullWidth	=	 Mage::getStoreConfig('slideshow/settings/fullWidth');
+	}
+	$thumbnails						=	 Mage::getStoreConfig('slideshow/settings/thumbnails');
+	$imagewidththumbnails			=	 Mage::getStoreConfig('slideshow/settings/imagewidththumbnails');
+	$imageheightthumbnails			=	 Mage::getStoreConfig('slideshow/settings/imageheightthumbnails');
+	
+	if($thumbnails	=='thumbnail'){ $thumbsts = 'true'; $pagests = 'false'; }
+		elseif($thumbnails=='pagination'){ $thumbsts = 'true'; $pagests = 'true';}
+	else{ $thumbsts = 'false'; $pagests = 'false';}
+	$imageCollection = $this->getImageCollection();	
+	
+?>	
+
+<?php if($enabled){?>
+
+<?php if(count($imageCollection)){?>
+<!-- If jquery alredy loaded then below jQuery file not required -->
+<?php if($this->getData('fullWidth') == 'on'){?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/jquery.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/jquery.easing.1.3.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/camera.js') ?>"></script>     
+<script type="text/javascript">
+	var $ds = NetBase.noConflict();
+	$ds(function(){
+		$ds('#camera_wrap_1<?php echo $fullWidth?>').camera({
+			easing:'<?php echo $easing; ?>',	
+			thumbnails: <?php echo $thumbsts; ?>,
+			fx: '<?php echo $style; ?>',			
+			time: <?php echo $slidingtime; ?>,
+			transPeriod: <?php echo $slidingeffecttime; ?>,
+			loader: '<?php echo $loader; ?>',
+			pagination: <?php echo $pagests; ?>,
+			navigation: <?php echo $navigation; ?>,
+			height: '<?php echo $imageheight; ?>px',
+			opacityOnGrid: true,
+			pauseOnClick: false
+		});			
+	});
+</script>				
+<?php } else {?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/jquery.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/jquery.easing.1.3.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/camera/camera.js') ?>"></script>     
+<script type="text/javascript">
+	var $cameracontent = NetBase.noConflict();
+	$cameracontent(function(){
+		$cameracontent('#camera_wrap_1<?php echo $fullWidth?>').camera({
+			easing:'<?php echo $easing; ?>',	
+			thumbnails: <?php echo $thumbsts; ?>,
+			fx: '<?php echo $style; ?>',			
+			time: <?php echo $slidingtime; ?>,
+			transPeriod: <?php echo $slidingeffecttime; ?>,
+			loader: 'bar',
+			pagination: <?php echo $pagests; ?>,
+			navigation: <?php echo $navigation; ?>,
+			height: '<?php echo $imageheight; ?>px',
+			opacityOnGrid: true,
+			pauseOnClick: false
+		});			
+	});
+</script>
+<?php }?>
+<link rel='stylesheet' id='camera-css'  href="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/camera/camera.css');?>" type='text/css' media='all'>
+
+<style>
+
+	#back_to_camera {
+		clear: both;
+		display: block;
+		height: 80px;
+		line-height: 40px;
+		padding: 20px;
+	}
+</style>
+<div class="fluid_container" style=" margin: 0 auto; <?php if ($fullWidth == 'on'){?> width: 100%;<?php } else {?> width: <?php echo $imagewidth;?>px; <?php } ?>" >    	
+	<div class="camera_wrap camera_coffee_skin" id="camera_wrap_1<?php echo $fullWidth?>">
+	
+	<?php foreach ($imageCollection as $banner): ?>
+		<?php $img = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$banner['image'];
+				$img2 = $this->getResizedImage($banner['image'],$imagewidththumbnails,$imageheightthumbnails,$quality = 100);
+		?>	
+		<div data-thumb="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$img2;?>" data-src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$banner['image']?>">
+			<?php if($description){?>
+				<?php if($banner['post_content']){?>
+					<div class="camera_caption fadeFromBottom">
+						<?php echo $banner['post_content'];?>
+					</div>
+				<?php } ?>
+			<?php } ?>
+			
+			
+		</div>	
+	<?php endforeach; ?>	
+	
+	</div>
+</div>
+    
+<div style="clear:both; display:block;"></div>
+<?php }else{
+	echo "<p><b>Slideshow.</b></p><p>Please upload slideshow.</p>";
+} ?>
+<?php }?>

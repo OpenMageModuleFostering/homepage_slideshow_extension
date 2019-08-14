@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+-->
+<config>    
+    <menu>
+        <slideshow module="slideshow">
+            <title>Slideshow</title>
+            <sort_order>71</sort_order>
+            <children>
+                <posts module="slideshow" translate="title">
+                    <title>Posts</title>
+                    <sort_order>10</sort_order>
+                    <action>slideshow_admin/manage_slideshow/index</action>
+                </posts>
+            </children>
+        </slideshow>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <slideshow>
+                        <title>Slideshow</title>
+                        <sort_order>70</sort_order>
+                        <children>
+                            <posts>
+                                <title>Manage Posts</title>
+                                <sort_order>0</sort_order>
+                            </posts>
+                        </children>
+                    </slideshow>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <slideshow>
+                                        <title>Cmsmart Slideshow Section</title>
+                                    </slideshow>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>   
+</config>

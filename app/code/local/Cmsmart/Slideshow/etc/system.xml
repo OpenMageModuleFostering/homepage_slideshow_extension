@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+-->
+<config>
+	<tabs>
+		<cmsmart_extensions>
+			<label>Cmsmart Extensions</label>
+			<sort_order>195</sort_order>
+		</cmsmart_extensions>
+	</tabs>
+    <sections>
+        <slideshow translate="label" >
+            <label>Slideshow</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>90</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>				
+                <settings translate="label">
+                    <label>Slideshow Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+						<type translate="label">
+                            <label>Type slide</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/type</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+						<linkpostimage translate="label">
+							<frontend_model>slideshow/adminhtml_link_post</frontend_model>
+							<!--<comment><![CDATA[After Save]]></comment>-->	
+							<sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </linkpostimage>
+						<navigation translate="label">
+                            <label>Navigation</label>
+							<comment><![CDATA[navigation button (prev, next and play/stop buttons)]]></comment>														
+                            <frontend_type>select</frontend_type> 
+							<source_model>adminhtml/system_config_source_enabledisable</source_model>
+							<sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </navigation>
+						<easing translate="label">
+							<label>Easing Method</label>
+							<comment>The type of easing applied to the transition effect animation.</comment>
+                            <frontend_type>select</frontend_type>
+							<source_model>slideshow/easing</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</easing>
+						<loader translate="label">
+                            <label>Loader</label>														
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/loader</source_model>                                                      
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </loader>
+						<style translate="label">
+                            <label>Image Style</label>							
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/style</source_model>                    
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </style>	
+						<slidingtime translate="label">
+                            <label>Sliding Time</label>	
+							<comment><![CDATA[seconds between the end of the sliding effect and the start of the next one]]></comment>						
+                            <frontend_type>text</frontend_type>                  
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </slidingtime>
+						<slidingeffecttime translate="label">
+                            <label>Sliding Effect Time</label>
+							<comment><![CDATA[length of the sliding effect in seconds]]></comment>							
+                            <frontend_type>text</frontend_type>
+							<sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </slidingeffecttime>
+						<imagewidth translate="label">
+                            <label>Width Slideshow</label>
+							<comment><![CDATA[in pixels, Full Width = 'off']]></comment>
+                            <frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </imagewidth>
+						<imageheight translate="label">
+                            <label>Height Slideshow</label>
+							<comment><![CDATA[in pixels]]></comment>							
+                            <frontend_type>text</frontend_type>                                                      
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </imageheight>
+						<description translate="label">
+                            <label>Description</label>	
+							<comment><![CDATA[show description in front of image]]></comment>													
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+							<sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </description>
+						<thumbnails translate="label">
+                            <label>Image Thumbnails</label>							
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/imagethumbnails</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </thumbnails>
+						<imagewidththumbnails translate="label">
+                            <label>Image width thumbnails</label>
+							<comment><![CDATA[in pixels (Image Thumbnails = 'Thumbnails')]]></comment>
+                            <frontend_type>text</frontend_type>
+							<sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </imagewidththumbnails>
+						<imageheightthumbnails translate="label">
+                            <label>Image height thumbnails</label>
+							<comment><![CDATA[in pixels (Image Thumbnails = 'Thumbnails') ]]></comment>							
+                            <frontend_type>text</frontend_type>                                                      
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>camera</type></depends>
+                        </imageheightthumbnails>
+						
+						<lofsliderstyle translate="label">
+                            <label>Lofslider slideshow style </label>							
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/Lofsliderstyle</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </lofsliderstyle>
+						<direction translate="label">
+                            <label>Direction</label>							
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/direction</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </direction>
+						<navPosition translate="label">
+                            <label>NavPosition</label>							
+                            <frontend_type>select</frontend_type>
+                            <source_model>slideshow/navposition</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </navPosition>
+						<duration translate="label">
+                            <label>Duration</label>			
+							<comment><![CDATA[length of the sliding effect in seconds]]></comment>									
+                            <frontend_type>text</frontend_type>
+                            <sort_order>19</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </duration>
+						<auto translate="label">
+                            <label>Auto</label>												
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/truefalse</source_model>
+							<sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </auto>
+						<mainWidth translate="label">
+                            <label>Main Width</label>	
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </mainWidth>
+						<mainHeight translate="label">
+                            <label>Main Height</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </mainHeight>
+						<navigatorHeight translate="label">
+                            <label>Navigator Height</label>	
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </navigatorHeight>
+						<navigatorWidth translate="label">
+                            <label>Navigator Width</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </navigatorWidth>
+						<sliderswrapper translate="label">
+                            <label>Sliders wrapper</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </sliderswrapper>
+						<slidersheight translate="label">
+                            <label>Sliders Height</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </slidersheight>
+						<maxItemDisplay translate="label">
+                            <label>Max Item Display</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </maxItemDisplay>
+						<interval translate="label">
+                            <label>Interval</label>								
+                            <frontend_type>text</frontend_type>
+                            <sort_order>28</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </interval>
+						<mobile translate="label">
+                            <label>Mobile</label>								
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/truefalse</source_model>
+                            <sort_order>29</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>lofslider</type></depends>
+                        </mobile>
+						<slideshowrevolution translate="label">
+                            <label>Slideshow revolution</label>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/revolution</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </slideshowrevolution>
+						<delay translate="label">
+                            <label>Delay</label>
+							<comment>The time one slide stays on the screen in Milliseconds (Default: 9000)</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </delay>
+						<startheight translate="label">
+                            <label>Max height</label>
+							<comment>Basic Height of the Slider in the desktop resolution in pixel, other screen sizes will be calculated from this (Default: 490)   It should be similiar to the settings of the style sheet.  If you use a fullwidth banner, ti will deinfe the max. Height of the banner by resizing of the browser. The banner wont ne heigher than this value.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </startheight>
+						<startwidth translate="label">
+                            <label>Max width</label>
+							<comment>Basic Width of the Slider in the desktop resolution in pixel, other screen sizes will be calculated from this (Default: 890)   It should be similiar to the settings of the style sheet.  If you use a fullwidth banner, ti will deinfe the max. Width of the banner by resizing of the browser. (Width='off')</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </startwidth>
+						
+						<fullWidth translate="label">
+                            <label>Full Width</label>
+							<comment>on/off it turns on the Horizontal Centering of Images in FullWidth version. In Case the Image is bigger then the container width, it fits the image with its height in the container and centers horizontally.</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/onoff</source_model>
+                            <sort_order>38</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fullWidth>
+						<navigationType translate="label">
+                            <label>Navigation Type</label>
+							<comment>Display type of the navigation bar (Default:"none")</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/navigationtype</source_model>
+                            <sort_order>39</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </navigationType>
+						<navigationArrows translate="label">
+                            <label>Navigation Arrows</label>
+							<comment>Display position of the Navigation Arrows (Default: "next to bullets")</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/navigationarrows</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </navigationArrows>
+						<navigationStyle translate="label">
+                            <label>Navigation Style</label>
+							<comment>Look of the navigation bullets (Default: "round")</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/navigationstyle </source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </navigationStyle>
+						<touchenabled translate="label">
+                            <label>Touch enabled</label>
+							<comment>Look of the navigation bullets (Default: "on")</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/onoff</source_model>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </touchenabled>
+						<shadow translate="label">
+                            <label>Shadow</label>
+							<comment>The Shadow display underneath the banner</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/shadow</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </shadow>
+						<onHoverStop translate="label">
+                            <label>onHoverStop</label>
+							<comment>Stop the Timer when hovering the slider</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/onoff</source_model>
+                            <sort_order>46</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>revolution</type></depends>
+                        </onHoverStop>
+						<autosequence translate="label">
+                            <label>Auto</label>												
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/truefalse</source_model>
+							<sort_order>47</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </autosequence>
+						
+						<navigationSkip translate="label">
+                            <label>Navigation Skip</label>
+							<comment>Whether the user can navigate through frames before each frame has finished animating</comment>
+                            <frontend_type>select</frontend_type> 
+							<source_model>slideshow/truefalse</source_model>
+							<sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </navigationSkip>
+						<class_images_sequence translate="label">
+                            <label>Class Images Sequence</label>
+                            <frontend_type>text</frontend_type> 
+							<comment><![CDATA[Css class in sequence js-theme.sliding-horizontal-parallax.css. Comma separated list of class]]></comment>
+							<sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </class_images_sequence>
+						<maxwidth_images_sequence translate="label">
+                            <label>Image max width</label>
+                            <frontend_type>text</frontend_type> 
+							<comment><![CDATA[Css class in sequence js-theme.sliding-horizontal-parallax.css. Comma separated list of class]]></comment>
+							<sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </maxwidth_images_sequence>
+						<maxheight_images_sequence translate="label">
+                            <label>Image Max Height</label>
+                            <frontend_type>text</frontend_type> 
+							<sort_order>53</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </maxheight_images_sequence>
+						<maxheight_images_sequence translate="label">
+                            <label>Image Max Height</label>
+                            <frontend_type>text</frontend_type> 
+							<sort_order>53</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </maxheight_images_sequence>
+						<background translate="label comment">
+                            <label>Background</label>
+                            <comment>Allowed file types: jpeg, gif, png.</comment>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">cmsmart/slideshow</upload_dir>
+                            <base_url type="media" scope_info="1">cmsmart/slideshow</base_url>
+                            <sort_order>54</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends><type>sequence-master</type></depends>
+                        </background>
+                    </fields>
+                </settings>
+				<info translate="label">
+                        <label>Cmsmart</label>
+                        <frontend_type>text</frontend_type> 
+                        <sort_order>20</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store> 
+                        <comment>Ajaxsearch Autocomplete And Suggest - Extension powered by <![CDATA[<a href="http://www.cmsmart.net" target="_blank" style='text-decoration: none'><font color="#EF1313">CMSMART</font></a>.<br/><br/>]]>Visit our website: <![CDATA[<a href="http://www.cmsmart.net" target="_blank" style='text-decoration: none'><font color="#EF1313">wwww.cmsmart.net</font></a>]]> to view more themes and extension required for your magento store.<![CDATA[<br/><br/>]]> Write ticket and get support from our at: <![CDATA[<a href="http://cmsmart.net/support" target="_blank" style='text-decoration: none'><font color="#EF1313">Technical Support - Forum</font></a>.]]>  </comment>  
+                </info>
+            </groups>
+        </slideshow>
+    </sections>
+</config>

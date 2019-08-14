@@ -1,0 +1,134 @@
+<?php 
+/**
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+*/
+	$enabled			=	 Mage::getStoreConfig('slideshow/settings/enabled');
+	$lofsliderstyle		=	 Mage::getStoreConfig('slideshow/settings/lofsliderstyle');
+	$direction			=	 Mage::getStoreConfig('slideshow/settings/direction');
+	$easing				=	 Mage::getStoreConfig('slideshow/settings/easing');
+	$duration			=	 Mage::getStoreConfig('slideshow/settings/duration');
+	$auto				=	 Mage::getStoreConfig('slideshow/settings/auto');
+	$maxItemDisplay		=	 Mage::getStoreConfig('slideshow/settings/maxItemDisplay');
+	$mobile				=	 Mage::getStoreConfig('slideshow/settings/mobile');
+	$navPosition		=	 Mage::getStoreConfig('slideshow/settings/navPosition');
+	$navigatorHeight	=	 Mage::getStoreConfig('slideshow/settings/navigatorHeight');
+	$navigatorWidth		=	 Mage::getStoreConfig('slideshow/settings/navigatorWidth');
+	$mainWidth			=	 Mage::getStoreConfig('slideshow/settings/mainWidth');
+	$mainHeight			=	 Mage::getStoreConfig('slideshow/settings/mainHeight');
+	$interval			=	 Mage::getStoreConfig('slideshow/settings/interval');
+	$sliderswrapper			=	 Mage::getStoreConfig('slideshow/settings/sliderswrapper');
+	$slidersheight			=	 Mage::getStoreConfig('slideshow/settings/slidersheight');
+	$imageCollection = $this->getImageCollection();	
+	$top = $mainHeight - 80;
+	$hieghtimgnavigator = $navigatorWidth - 6;
+	$widthimgnavigator =  $navigatorHeight - 6;
+	$topbutton =  $navigatorHeight - 37;
+?>
+
+
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/jQuery.min.1.10.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/lofslider/jquery.touchSwipe.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/lofslider/jquery.easing.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/lofslider/script.js') ?>"></script>     
+<script type="text/javascript">
+	var $ds = NetBase.noConflict();
+	$ds(function(){
+	var $style = <?php echo $lofsliderstyle; ?>;
+	var buttons = { previous:$ds('#jslidernews<?php echo $lofsliderstyle; ?> .button-previous') ,
+						next:$ds('#jslidernews<?php echo $lofsliderstyle; ?> .button-next') };
+	if(<?php echo $lofsliderstyle ?> == 1) {
+				$ds('#jslidernews<?php echo $lofsliderstyle; ?>').lofJSidernews({
+						interval 		: <?php echo $interval;?>,
+						direction		: '<?php echo $direction;?>',	
+						easing			: '<?php echo $easing;?>',
+						duration		: <?php echo $duration;?>,
+						auto		 	: <?php echo $auto;?>,
+						maxItemDisplay  : <?php echo $maxItemDisplay;?>,
+						mobile   		: <?php echo $mobile;?>,
+						navPosition     : '<?php echo $navPosition;?>',
+						navigatorHeight : <?php echo $navigatorHeight;?>,
+						navigatorWidth  : <?php echo $navigatorWidth;?>,
+						mainWidth		: <?php echo $mainWidth;?>,
+						buttons			: buttons 
+
+				});	
+			};
+	if(<?php echo $lofsliderstyle ?> == 2) {
+		$ds('#jslidernews2').lofJSidernews( { 
+						interval			:<?php echo $interval;?>,
+						easing				:'<?php echo $easing;?>',
+						duration			: <?php echo $duration;?>,
+						auto				:<?php echo $auto;?>,
+						mainWidth			:<?php echo $mainWidth;?>,
+						mainHeight			:<?php echo $mainHeight;?>,
+						navigatorHeight		: <?php echo $navigatorHeight;?>,
+						navigatorWidth		: <?php echo $navigatorWidth;?>	,
+						maxItemDisplay		:<?php echo $maxItemDisplay;?>,
+						buttons				:buttons });
+	}
+	 });
+</script>
+<style>
+	.lof-slidecontent ul.navigator-wrap-inner li img{
+		width: <?php echo $widthimgnavigator;?>px;
+		height: <?php echo $hieghtimgnavigator;?>px;
+		margin-right: 3px;
+	}
+	.lof-slidecontent .navigator-content .button-next, .lof-slidecontent .navigator-content .button-previous{
+		margin-top: <?php echo $topbutton;?>px;
+	}
+</style>	
+<link rel='stylesheet' id='camera-css'  href="<?php echo $this->getSkinUrl('css/cmsmart/slideshow/lofslider/style'.$lofsliderstyle.'.css');?>" type='text/css' media='all'>
+<?php if($lofsliderstyle == 1) {?>
+<div id="jslidernews<?php echo $lofsliderstyle; ?>" class="lof-slidecontent" style="width:<?php echo $mainWidth;?>px; height:<?php echo $mainHeight;?>px; margin: 0 auto;">
+<?php } else {?>
+<div id="jslidernews<?php echo $lofsliderstyle; ?>" class="lof-slidecontent" style="width:<?php echo $sliderswrapper;?>px; height:<?php echo $slidersheight;?>px; margin: 0 auto;">
+<?php } ?>
+	<div class="preload"><div></div></div>
+	<?php if($lofsliderstyle == 2) {?>	<div class="button-previous">Previous</div> <?php }?>
+	<?php if($lofsliderstyle == 1) {?>
+	<div class="main-slider-content" style="width:<?php echo $mainWidth;?>px; height:<?php echo $mainHeight;?>px">
+	<?php } else {?>
+	<div class="main-slider-content" style="width:<?php echo $sliderswrapper;?>px; height:<?php echo $slidersheight;?>px">
+	<?php } ?>
+		  <ul class="sliders-wrap-inner">
+                <?php foreach ($imageCollection as $banner): ?>
+					<li>
+                          <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$banner['image']?>" title="<?php echo $banner['title']; ?>"  height="<?php echo $mainHeight;?>" width="<?php echo $mainWidth;?>" >           
+                          <div class="slider-description" style="top:<?php echo $top;?>px;">
+                            <div class="slider-meta"><a target="_parent" title="<?php echo $banner['title']; ?>" href="<?php echo $banner['weblink']; ?>"><?php echo $banner['title']; ?></a></div>
+							<?php $filter = new Mage_Widget_Model_Template_Filter();?>
+							<?php echo substr($filter->filter($banner['post_content']),0,65).'....';?>
+                            <a class="readmore" href="<?php echo $banner['weblink']; ?>">Read more </a>
+                            </p>
+                         </div>
+                    </li> 
+				<?php endforeach; ?>
+        </ul>  
+	</div>
+	<div class="navigator-content">
+				<?php if($lofsliderstyle < 2) {?>	<div class="button-next">Next</div> <?php }?>
+                  <div class="navigator-wrapper">
+                        <ul class="navigator-wrap-inner">
+						<?php foreach ($imageCollection as $banner): ?>
+                           <li>
+						   <div>
+						   <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$banner['image']?>" />
+						   <h3><?php echo $banner['title']; ?></h3>
+							<?php echo substr($banner['post_content'],0,65).'....';?>
+						   </div>
+						   </li>
+                         <?php endforeach; ?>       		
+                        </ul>
+                  </div>
+                <?php if($lofsliderstyle < 2) {?>	  <div  class="button-previous">Previous</div> <?php }?>
+    </div> 
+	<?php if($lofsliderstyle = 2) {?>	<div class="button-next">Next</div> <?php }?>
+</div>

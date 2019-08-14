@@ -1,0 +1,474 @@
+<?php
+/**
+* Name Extension: Slideshow Homepage
+* Version: 1.0.0
+* Author: The Cmsmart Development Team 
+* Date Created: 16/09/2013
+* Websites: http://cmsmart.net
+* Technical Support: Forum - http://cmsmart.net/support
+* GNU General Public License v3 (http://opensource.org/licenses/GPL-3.0)
+* Copyright © 2011-2013 Cmsmart.net. All Rights Reserved.
+*/
+?>
+<style type="text/css">
+	#slideshow_form .validation-advice {
+		float: left;
+	}
+	.icon-dell{
+		width: 15px;
+		float: right;
+		height: 15px; 
+		margin-top: 2px; 
+		font-size: 0px;
+		margin-left:10px; 
+		background-image:url('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN)?>/adminhtml/default/default/images/cancel_btn_icon.gif');"
+	}
+</style>
+<?php
+	$theme = $this->helper('slideshow');
+    $block = $theme->getAllOptions();
+	$dataeasing = $theme->getEasing();
+	$datagetclass = $theme->getClass();
+	$numberslide = Mage::getStoreConfig('slideshow/settings/numberslide');
+	$collection = Mage::getModel('slideshow/slideshow')->getCollection()
+			->addFieldToFilter('status',0)
+			->addFieldToFilter('revolution',1);	
+	foreach ($collection->getData() as $data){
+		$slideshow_id = $data['slideshow_id'];
+	}
+	$slideshow_id = $slideshow_id+1;
+	
+	$id = $this->getRequest()->getParam('id');
+	if($id){
+		$collectionupdate = Mage::getModel('slideshow/slideshow')->getCollection()
+			->addFieldToFilter('slideshow_id',$id)
+			->addFieldToFilter('status',0)
+			->addFieldToFilter('revolution',1);	
+		$dataupdate = array();
+		foreach ($collectionupdate->getData() as $dat){
+			$dataupdate = $dat;
+		}
+		if($dataupdate['image-li']){
+			$imageli = explode(",",$dataupdate['image-li']);
+		}
+		if($dataupdate['transition-li']){
+			$transitionli = explode(",",$dataupdate['transition-li']);
+		}
+		if($dataupdate['data-slotamouny-li']){
+			$dataslotamounyli = explode(",",$dataupdate['data-slotamouny-li']);
+		}
+		if($dataupdate['data-delay-li']){
+			$datadelayli = explode(",",$dataupdate['data-delay-li']);
+		}
+		if($dataupdate['numberslide-li']){
+			$numberslideli = explode(",",$dataupdate['numberslide-li']);
+		} 
+		if($dataupdate['data-content']){
+			$datacontent = explode(",",$dataupdate['data-content']);
+		}
+		
+		if($dataupdate['numberli-div']){
+			$datanumberlidiv = explode(",",$dataupdate['numberli-div']);
+		}
+		if($dataupdate['data-x']){
+			$datax = explode(",",$dataupdate['data-x']);
+		}
+		if($dataupdate['data-y']){
+			$datay = explode(",",$dataupdate['data-y']);
+		}
+		if($dataupdate['data-speed']){
+			$dataspeed = explode(",",$dataupdate['data-speed']);
+		}
+		if($dataupdate['data-start']){
+			$datastart = explode(",",$dataupdate['data-start']);
+		}
+		if($dataupdate['data-easing']){
+			$dataeasingupdate = explode(",",$dataupdate['data-easing']);
+		}
+		if($dataupdate['class']){
+			$dataclass = explode(",",$dataupdate['class']);
+		}
+		//print_r($dataupdate); exit();
+	}
+?>
+
+<div class="slideshow-revolution" id="slideshow_tabs_form_section_content">
+<script type="text/javascript" src="<?php echo $this->getJsUrl('cmsmart/slideshow/jquery/jquery-1.7.2.min.js'); ?>"></script>
+
+<div class="entry-edit">
+<?php if($id){?>
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">Post revolution</h4>
+		<div class="form-buttons">
+			<button style="float: right" onclick="addmyslideshow(<?php echo $dataupdate['idslideshow'];?>)" class="scalable" type="button" title="Add Slideshow"><span><span><span>Add Slideshow</span></span></span></button>
+		</div>
+	</div>
+	<div id="slideshow_form" class="fieldset ">
+		<input style="display: none;" id="numberorder" class="text" type="text" title="numberorder" name ="numberslide" value="<?php echo $dataupdate['idslideshow'];?>">
+		<div style="margin-bottom: 10px;"><label style="float: left; margin-right: 10px;">Title sledeshow</label><input id="title" class="input-text required-entry required-entry validation-failed" style="background: none;" type="text" title="text" value="<?php echo $dataupdate['title'];?>" name="<?php echo $dataupdate['idslideshow'];?>_title"/></div>
+		<?php $n=1; for($i=1 ; $i <= $dataupdate['numberslide']; $i++){?>
+		<?php if($dataslotamounyli[$i-1]){?>
+			
+				<div class="post_revolution post_revolution<?php echo $i;?> content" style="background: #D3D3D3; margin-bottom: 5px;">
+					<div style="width: 15px; float: right;margin-left: 10px; background-image:url('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN)?>adminhtml/default/default/images/cancel_btn_icon.gif'); font-size: 0px;height: 15px; margin-top: 2px;" onclick="delcontent(<?php echo $i?>,<?php echo $dataupdate['idslideshow'];?>)">dell</div>
+					<button  onclick="addmycontent(<?php echo $i;?>,<?php echo $dataupdate['idslideshow'];?>)" style="float: right" id="addcontent<?php echo $i;?>"  type="button" title="Add Content" ><span><span><span>Add Content</span></span></span></button>		
+					<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="numberslide" value="<?php echo $i;?>">
+					<a onclick="imagePreview('imagethumbs_image'); return false;" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$imageli[$i-1]?>"><img id="imagethumbs_image" class="small-image-preview v-middle" width="22" height="22" alt="<?php echo $dataupdate['title'];?>" title="<?php echo $dataupdate['title'];?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$imageli[$i-1]?>"></a>
+					<label>Images</label>
+					<input id="image" class="input-file" style="background: none; border: none;" type="file" title="Image" value="<?php echo $imageli[$i-1]?>" name="<?php echo $dataupdate['idslideshow'];?>_image-li_<?php echo $i;?>"/>
+					<input id="image" class="input-file" style="display: none;" type="text" title="Image" value="<?php echo $imageli[$i-1]?>" name="<?php echo $dataupdate['idslideshow'];?>_image-li_<?php echo $i;?>old"/>
+					<label>Transition</label> <select class=" select" name="<?php echo $dataupdate['idslideshow'];?>_transition-li_<?php echo $i;?>" id="transition">
+						<option <?php if($transitionli[$i-1] == 'boxslide') {?> selected="selected" <?php }?> value="boxslide">Boxslide</option>
+						<option <?php if($transitionli[$i-1] == 'boxfade') {?> selected="selected" <?php }?> value="boxfade">Boxfade</option>
+						<option <?php if($transitionli[$i-1] == 'slotzoom-horizontal') {?> selected="selected" <?php }?> value="slotzoom-horizontal">Slotzoom Horizontal</option>
+						<option <?php if($transitionli[$i-1] == 'slotslide-horizontal') {?> selected="selected" <?php }?> value="slotslide-horizontal">Slotslide Horizontal</option>
+						<option <?php if($transitionli[$i-1] == 'slotfade-horizontal') {?> selected="selected" <?php }?> value="slotfade-horizontal">Slotfade Horizontal</option>
+						<option <?php if($transitionli[$i-1] == 'slotzoom-vertical') {?> selected="selected" <?php }?> value="slotzoom-vertical">Slotzoom Vertical</option>
+						<option <?php if($transitionli[$i-1] == 'slotslide-vertical') {?> selected="selected" <?php }?> value="slotslide-vertical">Slotslide Vertical</option>
+						<option <?php if($transitionli[$i-1] == 'slotfade-vertical') {?> selected="selected" <?php }?> value="slotfade-vertical">Slotfade Vertical</option>
+						<option <?php if($transitionli[$i-1] == 'curtain-1') {?> selected="selected" <?php }?> value="curtain-1">Curtain 1</option>
+						<option <?php if($transitionli[$i-1] == 'curtain-2') {?> selected="selected" <?php }?> value="curtain-2">Curtain 2</option>
+						<option <?php if($transitionli[$i-1] == 'curtain-3') {?> selected="selected" <?php }?> value="curtain-3">Curtain 3</option>
+						<option <?php if($transitionli[$i-1] == 'slideleft') {?> selected="selected" <?php }?> value="slideleft">Slide Left</option>
+						<option <?php if($transitionli[$i-1] == 'slideright') {?> selected="selected" <?php }?> value="slideright">Slide Right</option>
+						<option <?php if($transitionli[$i-1] == 'slideup') {?> selected="selected" <?php }?> value="slideup">Slide up</option>
+						<option <?php if($transitionli[$i-1] == 'slidedown') {?> selected="selected" <?php }?> value="slidedown">Slide Down</option>
+						<option <?php if($transitionli[$i-1] == 'fade') {?> selected="selected" <?php }?> value="fade">Fade</option>
+						</select>
+					<label style="margin-left: 10px; margin-right: 5px">Data slotamount</label><input id="data-slotamouny"  class="required-entry required-entry"  type="text" title="Data slotamouny " value="<?php echo $dataslotamounyli[$i-1]?>" name="<?php echo $dataupdate['idslideshow'];?>_data-slotamouny-li_<?php echo $i?>" size="3" />
+					<label style="margin-left: 10px; margin-right: 5px">Data Delay</label><input id="data-delay" type="text" title="Data delay" value="<?php echo $datadelayli[$i-1]?>" name="<?php echo $dataupdate['idslideshow'];?>_data-delay-li_<?php echo $i?>" size="3" />
+					<div class="content_revolution<?php echo $i?>" style="margin-top: 10px;">
+					<?php for($j=1; $j<= $numberslideli[$i-1]; $j++) {?>
+							<div class="nesbase<?php echo $i?> nesbase<?php echo $i?><?php echo $j?>" style="width: 100%; float: left; margin-bottom: 10px;">
+								<label>Choose Block</label>
+								<div style="width: 100%;"></div>
+								<select class=" select" name="<?php echo $dataupdate['idslideshow'];?>_content<?php echo $i?>-<?php echo $j?>" id="data-easing" style="width: 160px; margin-right: 5px;">
+									<?php foreach ($block as $data) { ?>
+										<option <?php if($theme->getDatarevolution($datacontent,$dataupdate['numberslide'],$datanumberlidiv,$i,$j) == $data['value']) {?> selected="selected" <?php }?> value="<?php echo $data['value']?>"><?php echo $data['label']?></option>
+									<?php } ?>
+								</select>
+								<label style="margin-right: 5px;">Data x</label><input id="data-x" type="text" title="Data-x" value="<?php echo $theme->getDatarevolution($datax,$dataupdate['numberslide'],$datanumberlidiv,$i,$j);?>" name="<?php echo $dataupdate['idslideshow'];?>_data-x<?php echo $i?>-<?php echo $j?>" size="3" />
+								<label style="margin-right: 5px; margin-left: 5px">Data y</label><input id="data-y" type="text" title="Data-y" value="<?php echo $theme->getDatarevolution($datay,$dataupdate['numberslide'],$datanumberlidiv,$i,$j);?>" name="<?php echo $dataupdate['idslideshow'];?>_data-y<?php echo $i?>-<?php echo $j?>" size="3" />
+								<label style="margin-right: 5px; margin-left: 5px">Data speed</label><input id="data-speed" type="text" title="Data Speed" value="<?php echo $theme->getDatarevolution($dataspeed,$dataupdate['numberslide'],$datanumberlidiv,$i,$j);?>" name="<?php echo $dataupdate['idslideshow'];?>_data-speed<?php echo $i?>-<?php echo $j?>" size="3" />
+								<label style="margin-right: 5px; margin-left: 5px">Data start</label><input id="data-start" type="text" title="Data-start" value="<?php echo $theme->getDatarevolution($datastart,$dataupdate['numberslide'],$datanumberlidiv,$i,$j);?>" name="<?php echo $dataupdate['idslideshow'];?>_data-start<?php echo $i?>-<?php echo $j?>" size="3" />
+								<label style="margin-right: 5px; margin-left: 5px">Data easing</label> <select class=" select" name="<?php echo $dataupdate['idslideshow'];?>_data-easing<?php echo $i?>-<?php echo $j?>" id="data-easing" style="width: 110px;">
+									<?php foreach ($dataeasing as $data) { ?>
+										<option <?php if($theme->getDatarevolution($dataeasingupdate,$dataupdate['numberslide'],$datanumberlidiv,$i,$j) == $data['value']) {?> selected="selected" <?php }?>  value="<?php echo $data['value']?>"><?php echo $data['label']?></option>
+									<?php } ?>
+								</select>
+								<label style="margin-right: 5px; margin-left: 5px">Animation class</label>
+								<select class=" select" name="<?php echo $dataupdate['idslideshow'];?>_class<?php echo $i?>-<?php echo $j?>" id="data-easing" style="width: 125px;">
+									<?php foreach ($datagetclass as $data) { ?>
+										<option <?php if($theme->getDatarevolution($dataclass,$dataupdate['numberslide'],$datanumberlidiv,$i,$j) == $data['value']) {?> selected="selected" <?php }?>  value="<?php echo $data['value']?>"><?php echo $data['label']?></option>
+									<?php } ?>
+								</select>
+								<div class="icon-dell" onclick="del(<?php echo $dataupdate['idslideshow'];?>,<?php echo $i?>,<?php echo $j?>)">dell</div>
+								<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="<?php echo $dataupdate['idslideshow'];?>_numberslide-li<?php echo $i?>" value="<?php echo $j?>">
+								<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="<?php echo $dataupdate['idslideshow'];?>_numberslide-li<?php echo $i?>" value="<?php echo $j?>">
+							</div>
+					<?php }?>
+					</div>
+				</div>
+				<?php } ?>
+		<?php } ?>
+		<p></p>
+	</div>
+<?php } else {?>
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">Post revolution</h4>
+		<div class="form-buttons"><button style="float: right" id="btn1" class="scalable save" type="button" title="Add Slideshow"><span><span><span>Add Slideshow</span></span></span></button>
+		<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="numberslide" value="'	+i+'">
+	</div>
+	</div>
+	<div id="slideshow_form" class="fieldset ">
+		<input style="display: none;" id="numberorder" class="text" type="text" title="numberorder" name ="numberslide" value="<?php echo $slideshow_id;?>">
+		<div style="margin-bottom: 10px;"><label style="float: left; margin-right: 10px; " >Title sledeshow</label><input id="title" class="input-text required-entry required-entry validation-failed" style="background: none;" type="text" title="text" value="" name="<?php echo $slideshow_id;?>_title"/></div>
+		<p></p>
+	</div>
+
+<?php } ?>
+</div>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">The options are in detail</h4>
+	</div>	
+	<div class="fieldset">
+		<div  style="width: 100%; margin-bottom: 5px;">
+			<?php echo $this->__('Every list item represents a new banner/slider item.</br>Transition effects and a possible slide link are defined here:');?>
+		</div>	
+		<div  class="content">
+			<div style="width:100%; float: left;">
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-transition</b> The appearance transition of this slide');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-slotamount</b> The number of slots or boxes the slide is divided into. If you use boxfade, over 7 slots can be juggy.');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-delay</b> A new Dealy value for the Slide. If no delay defined per slide, the dealy defined via Options will be used');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-easing</b> special easing effect of the animation');?></div>
+			</div>
+		</div>
+		 <?php echo $this->__('Captions are Containers which can be customized via CSS, classes for the start animation and some data options.
+							The CSS for the caption added in the settings.css file because it depends strongly on the responsive Sizing. 
+							There are 4 Steps of Responsive Contents which are written later below under the Responsive Dependencies Caption.');?>
+		<div style="width:100%; float: left;"></div>					
+		<div style="width:100%; float: left;"><?php echo $this->__('+ Color class example big_white, big_orange, medium_grey (check the style.css of the example for details)'); ?></div>
+		<div  class="content">
+			<div style="width:100%; float: left;">
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-x</b> The horizontal position in the standard (via startwidth option defined) screen size (other screen sizes will be calculated)');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-y</b> vertical position in the standard (via startheight option defined) screen size (other screen sizes will be calculated)');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-speed</b> duration of the animation in milliseconds');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-start</b> after how many milliseconds should this caption start to show');?></div>
+				<div style="width:100%; float: left;"><?php echo $this->__('<b>data-easing</b> special easing effect of the animation');?></div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+var chk = NetBase.noConflict();
+chk(".slideshow-revolution").ready(function(){
+	var i=0;
+	chk("#btn1").click(function(){
+	
+		i++;
+		chk(".slideshow-revolution p").append('<div class="post_revolution post_revolution'+ i +' content" style="background: #D3D3D3; margin-bottom: 5px;">'+
+		'<div class="icon-dell" onclick="delcontent('+i+',0)">dell</div>'+
+		'<button style="float: right" id="addcontent'+ i +'"  type="button" title="Add Content" ><span><span><span>Add Content</span></span></span></button>'+
+		'<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="numberslide" value="'	+i+'">'+
+		'<label style="margin-right: 5px">Images</label>'+
+		'<input id="image" class="input-file required-entry required-entry validation-failed" style="background: none; border: none;" type="file" title="Image" value="" name="<?php echo $slideshow_id;?>_image-li_'+i+'"/>'+
+		'<label>Transition</label> <select class=" select" name="<?php echo $slideshow_id;?>_transition-li_'+i+'" id="transition">'+
+		'<option selected="selected" value="boxslide">Boxslide</option>'+
+		'<option value="boxfade">Boxfade</option>'+
+		'<option value="slotzoom-horizontal">Slotzoom Horizontal</option>'+
+		'<option value="slotslide-horizontal">Slotslide Horizontal</option>'+
+		'<option value="slotfade-horizontal">Slotfade Horizontal</option>'+
+		'<option value="slotzoom-vertical">Slotzoom Vertical</option>'+
+		'<option value="slotslide-vertical">Slotslide Vertical</option>'+
+		'<option value="slotfade-vertical">Slotfade Vertical</option>'+
+		'<option value="curtain-1">Curtain 1</option>'+
+		'<option value="curtain-2">Curtain 2</option>'+
+		'<option value="curtain-3">Curtain 3</option>'+
+		'<option value="slideleft">Slide Left</option>'+
+		'<option value="slideright">Slide Right</option>'+
+		'<option value="slideup">Slide up</option>'+
+		'<option value="slidedown">Slide Down</option>'+
+		'<option value="fade">Fade</option>'+
+		'</select>'+
+		'<label style="margin-left: 10px; margin-right: 5px">Data slotamount</label><input id="data-slotamouny" type="text"  class="required-entry required-entry"  title="Data slotamouny " value="560" name="<?php echo $slideshow_id;?>_data-slotamouny-li_'+i+'" size="3" />'+
+		'<label style="margin-left: 10px; margin-right: 5px">Data Delay</label><input id="data-delay" type="text" title="Data delay" value="" name="<?php echo $slideshow_id;?>_data-delay-li_'+i+'" size="3" />'+
+		'<div class="content_revolution'+ i +'" style="margin-top: 10px;">'+
+		'</div></div>'	
+		);
+		addcontent(i);
+		
+	});
+});
+function addcontent(j){
+		var i=0;
+		chk('#addcontent'+ j +'').click(function(){
+						i++;
+						chk('.post_revolution'+j+' .content_revolution'+ j +'').append(
+							'<div class="nesbase'+i+' nesbase'+i+j+'" style="width: 100%; float: left; margin-bottom: 10px;">'+
+							'<label>Choose Block</label>'+
+							'<div style="width: 100%;"></div>'+
+							'<select class=" select" name="<?php echo $slideshow_id;?>_content'+j+'-'+i+'" id="data-easing" style="width: 160px; margin-right: 5px;">'+
+								<?php foreach ($block as $data) { ?>
+									'<option value="<?php echo $data['value']?>"><?php echo $data['label']?></option>'+
+								<?php } ?>
+							'</select>'+
+							'<label style="margin-right: 5px;">Data x</label><input id="data-x" type="text" title="Data-x" value="560" name="<?php echo $slideshow_id;?>_data-x'+j+'-'+i+'" size="3" />'+
+							'<label style="margin-right: 5px; margin-left: 5px">Data y</label><input id="data-y" type="text" title="Data-y" value="300" name="<?php echo $slideshow_id;?>_data-y'+j+'-'+i+'" size="3" />'+
+							'<label style="margin-right: 5px; margin-left: 5px">Data speed</label><input id="data-speed" type="text" title="Data Speed" value="900" name="<?php echo $slideshow_id;?>_data-speed'+j+'-'+i+'" size="3" />'+
+							'<label style="margin-right: 5px; margin-left: 5px">Data start</label><input id="data-start" type="text" title="Data-start" value="1700" name="<?php echo $slideshow_id;?>_data-start'+j+'-'+i+'" size="3" />'+
+							'<label style="margin-right: 5px; margin-left: 5px">Data easing</label> <select class=" select" name="<?php echo $slideshow_id;?>_data-easing'+j+'-'+i+'" id="data-easing" style="width: 160px; margin-right: 5px;">'+
+								<?php foreach ($dataeasing as $data) { ?>
+									'<option value="<?php echo $data['value']?>"><?php echo $data['label']?></option>'+
+								<?php } ?>
+							'</select>'+
+							'<label style="margin-right: 5px; margin-left: 5px">Class</label><input id="class" type="text" title="Class" value="" name="<?php echo $slideshow_id;?>_class'+j+'-'+i+'" size="16" />'+
+							'<div class="icon-dell" onclick="del(<?php echo $slideshow_id;?>,'+i+','+j+')">dell</div>'+
+							'<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="<?php echo $slideshow_id;?>_numberslide-li'+j+'" value="'+i+'">'+
+							'</div>'
+						);
+					});
+}
+var d =0;
+function addmyslideshow(idslideshow){
+	var i = chk('.post_revolution').length + 1;	
+	
+	d++;
+	chk('.slideshow-revolution p').append('<div class="post_revolution post_revolution'+ i +' content" style="background: #D3D3D3; margin-bottom: 5px;">'+
+		'<div class="icon-dell" onclick="delcontent('+i+','+idslideshow+')">dell</div>'+
+		'<button style="float: right" id="addcontent'+ i +'" onclick=addmycontent('+i+','+idslideshow+') type="button" title="Add Content" ><span><span><span>Add Content</span></span></span></button>'+
+		'<input style="display: none;" id="numberslide" class="numberslide" class="text" type="text" title="numberslide" name ="numberslide" value="'+i+'">'+
+		'<input id="image" class="input-file required-entry required-entry validation-failed" style="background: none; border: none;" type="file" title="Image" value="" name="'+idslideshow+'_image-li_'+i+'"/>'+
+		'<label>Transition</label> <select class=" select" name="'+idslideshow+'_transition-li_'+i+'" id="transition">'+
+		'<option selected="selected" value="boxslide">Boxslide</option>'+
+		'<option value="boxfade">Boxfade</option>'+
+		'<option value="slotzoom-horizontal">Slotzoom Horizontal</option>'+
+		'<option value="slotslide-horizontal">Slotslide Horizontal</option>'+
+		'<option value="slotfade-horizontal">Slotfade Horizontal</option>'+
+		'<option value="slotzoom-vertical">Slotzoom Vertical</option>'+
+		'<option value="slotslide-vertical">Slotslide Vertical</option>'+
+		'<option value="slotfade-vertical">Slotfade Vertical</option>'+
+		'<option value="curtain-1">Curtain 1</option>'+
+		'<option value="curtain-2">Curtain 2</option>'+
+		'<option value="curtain-3">Curtain 3</option>'+
+		'<option value="slideleft">Slide Left</option>'+
+		'<option value="slideright">Slide Right</option>'+
+		'<option value="slideup">Slide up</option>'+
+		'<option value="slidedown">Slide Down</option>'+
+		'<option value="fade">Fade</option>'+
+		'</select>'+
+		'<label style="margin-left: 10px; margin-right: 5px">Data slotamount</label><input id="data-slotamouny"  class="required-entry required-entry"  type="text" title="Data slotamouny " value="10" name="'+idslideshow+'_data-slotamouny-li_'+i+'" size="3" />'+
+		'<label style="margin-left: 10px; margin-right: 5px">Data Delay</label><input id="data-delay" type="text" title="Data delay" value="" name="'+idslideshow+'_data-delay-li_'+i+'" size="3" />'+
+		'<div class="content_revolution'+ i +'" style="margin-top: 10px;">'+
+		'</div></div>'	
+		);
+		d++;
+}
+
+function addmycontent(i,idslideshow){
+	var m=i+1;
+	var j = chk('.nesbase'+i).length + 1;	
+	var numberslide = chk('.post_revolution').length;
+	chk('.content_revolution'+ i).append(
+							'<div class="nesbase'+i+' nesbase'+i+j+'" style="width: 100%; float: left; margin-bottom: 10px;">'+
+							'<select class=" select" name="'+idslideshow+'_content'+i+'-'+j+'" id="data-easing" style="width: 160px; margin-right: 8px;">'+
+								<?php foreach ($block as $data) { ?>
+									'<option value="<?php echo $data['value']?>"><?php echo $data['label']?></option>'+
+								<?php } ?>
+							'</select>'+
+							'<label style="margin-right: 8px;">Data x</label><input id="data-x" type="text" title="Data-x" value="560" name="'+idslideshow+'_data-x'+i+'-'+j+'" size="3" />'+
+							'<label style="margin-right: 8px; margin-left: 5px">Data y</label><input id="data-y" type="text" title="Data-y" value="300" name="'+idslideshow+'_data-y'+i+'-'+j+'" size="3" />'+
+							'<label style="margin-right: 8px; margin-left: 5px">Data speed</label><input id="data-speed" type="text" title="Data Speed" value="900" name="'+idslideshow+'_data-speed'+i+'-'+j+'" size="3" />'+
+							'<label style="margin-right: 8px; margin-left: 5px">Data start</label><input id="data-start" type="text" title="Data-start" value="1700" name="'+idslideshow+'_data-start'+i+'-'+j+'" size="3" />'+
+							'<label style="margin-right: 6px; margin-left: 5px">Data easing</label> <select class=" select" name="'+idslideshow+'_data-easing'+i+'-'+j+'" id="data-easing" style="width: 110px;">'+
+								<?php foreach ($dataeasing as $data) { ?>
+									'<option value="<?php echo $data['value']?>"><?php echo $data['label']?></option>'+
+								<?php } ?>
+							'</select>'+
+							'<label style="margin-right: 6px; margin-left: 5px">Animation class</label> <select class=" select" name="'+idslideshow+'_class'+i+'-'+j+'" id="class" style="width: 125px;">'+
+								<?php foreach ($datagetclass as $data) { ?>
+									'<option value="<?php echo $data['value']?>"><?php echo $data['label']?></option>'+
+								<?php } ?>
+							'</select>'+
+							'<div class="icon-dell" onclick="del('+idslideshow+','+i+','+j+')">dell</div>'+
+							'<input id="numberslide" class="numberslide" type="text" value="'+j+'" name="'+idslideshow+'_numberslide-li'+i+'" title="numberslide" style="display: none;">'+
+							'</div>'
+						);
+}
+function del(idslideshow,i,j){
+	chk('.nesbase'+i+j+'' ).click(function( event ) {
+		event.preventDefault();
+		$( this ).remove();
+		var nesbasedel = chk(".nesbase"+i).length;
+			if(nesbasedel > 0){
+				for(var l=j; l<= nesbasedel; l++){
+					var new_=l+1;
+					chk(".nesbase"+i+new_).addClass("nesbase"+i+l);
+					chk(".nesbase"+i+new_).removeClass("nesbase"+i+new_);
+					chk(".nesbase"+i+l+" .icon-dell").attr('onclick','del('+idslideshow+','+i+','+l+')');
+					var namedivli = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_numberslide-li'+i+']');
+					namedivli.attr('value',l);					
+					var namedivli = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_data-x'+i+'-'+new_+']');
+					namedivli.attr('name',''+idslideshow+'_data-x'+i+'-'+l);
+					var namedivlix = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_data-x'+i+'-'+new_+']');
+					namedivlix.attr('name',''+idslideshow+'_data-x'+i+'-'+l);
+					var namedivliy = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_data-y'+i+'-'+new_+']');
+					namedivliy.attr('name',''+idslideshow+'_data-y'+i+'-'+l);
+					var namedivlispeed = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_data-speed'+i+'-'+new_+']');
+					namedivlispeed.attr('name',''+idslideshow+'_data-speed'+i+'-'+l);
+					var namedivlistart = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_data-start'+i+'-'+new_+']');
+					namedivlistart.attr('name',''+idslideshow+'_data-start'+i+'-'+l);
+					var namedivlieasing = chk(".nesbase"+i+l).find('select[name='+idslideshow+'_data-easing'+i+'-'+new_+']');
+					namedivlieasing.attr('name',''+idslideshow+'_data-easing'+i+'-'+l);
+					var namedivlicontent = chk(".nesbase"+i+l).find('select[name='+idslideshow+'_content'+i+'-'+new_+']');
+					namedivlicontent.attr('name',''+idslideshow+'_content'+i+'-'+l);
+					var namedivliclass = chk(".nesbase"+i+l).find('input[name='+idslideshow+'_class'+i+'-'+new_+']');
+					namedivliclass.attr('name',''+idslideshow+'_class'+i+'-'+l);
+				}
+			}
+		});
+		
+}
+
+function delcontent(i,idslideshow){
+	chk('.post_revolution'+i+'').click(function( event ) {
+		event.preventDefault();
+		$( this ).remove();
+		var a = chk('.post_revolution').length;
+		
+		if(a > 0)
+		{
+			var all_li=chk('.post_revolution');
+			for(var j=i;j <= all_li.length;j++)
+			{		
+					var del_ = j;
+					var new_ = j+1;
+					chk(all_li[j-1]).removeClass("post_revolution"+new_);
+					chk(all_li[j-1]).addClass("post_revolution"+del_);
+					// thay name cac gia tri cua li slide ;
+					var input_last=chk(all_li[j-1]).find('input[name=numberslide]');
+					input_last.attr('value',j);
+					var input_lastname=chk(all_li[j-1]).find('select[name='+idslideshow+'_transition-li_'+new_+']');
+					input_lastname.attr('name',''+idslideshow+'_transition-li_'+del_);
+					var input_lastname2=chk(all_li[j-1]).find('input[name='+idslideshow+'_data-slotamouny-li_'+new_+']');
+					input_lastname2.attr('name',+idslideshow+'_data-slotamouny-li_'+del_);
+					var input_lastname3=chk(all_li[j-1]).find('input[name='+idslideshow+'_data-delay-li_'+new_+']');
+					input_lastname3.attr('name',+idslideshow+'_data-delay-li_'+del_);
+					
+					var input_lastname3=chk(all_li[j-1]).find('input[name='+idslideshow+'_image-li_'+new_+']');
+					input_lastname3.attr('name',+idslideshow+'_image-li_'+del_);
+					
+					
+					var input_lastname4=chk(all_li[j-1]).find('input[name='+idslideshow+'_numberslide-li_'+new_+']');
+					input_lastname4.attr('name',+idslideshow+'_numberslide-li_'+del_);
+					
+					var input_lastname5=chk(all_li[j-1]).find('input[name='+idslideshow+'_image-li_'+new_+'old]');
+					input_lastname5.attr('name',''+idslideshow+'_image-li_'+del_+'old');
+					
+					// thay noi dung cua li slide ;
+					chk(".content_revolution"+new_).addClass("content_revolution"+del_);
+					chk(".content_revolution"+del_).removeClass("content_revolution"+new_);
+					
+					chk(".post_revolution"+del_+" button").attr('onclick','addmycontent('+del_+','+idslideshow+')');
+					chk(".post_revolution"+del_+" div").attr('onclick','delcontent('+del_+','+idslideshow+')');
+					
+					var input_lastname4=chk(".post_revolution"+del_).find('input[name='+idslideshow+'_numberslide-li'+new_+']');
+					input_lastname4.attr('name',+idslideshow+'_numberslide-li'+del_);
+					
+					chk(".nesbase"+new_).addClass("nesbase"+del_);
+					chk(".nesbase"+del_).removeClass("nesbase"+new_);
+					var nesbase = chk(".nesbase"+del_).length;
+					for(var l=1;l<=nesbase;l++){
+						chk(".nesbase"+new_+l).addClass("nesbase"+del_+l);
+						chk(".nesbase"+del_+l).removeClass("nesbase"+new_+l);
+						var select_lastnamenesbae=chk(".nesbase"+del_+l).find('select[name='+idslideshow+'_content'+new_+'-'+l+']');
+						select_lastnamenesbae.attr('name',''+idslideshow+'_content'+del_+'-'+l);
+						
+						var inputx_lastnamenesbae=chk(".nesbase"+del_+l).find('input[name='+idslideshow+'_data-x'+new_+'-'+l+']');
+						inputx_lastnamenesbae.attr('name',''+idslideshow+'_data-x'+del_+'-'+l);
+						
+						var inputy_lastnamenesbae=chk(".nesbase"+del_+l).find('input[name='+idslideshow+'_data-y'+new_+'-'+l+']');
+						inputy_lastnamenesbae.attr('name',''+idslideshow+'_data-y'+del_+'-'+l);
+						
+						var inputspeed_lastnamenesbae=chk(".nesbase"+del_+l).find('input[name='+idslideshow+'_data-speed'+new_+'-'+l+']');
+						inputspeed_lastnamenesbae.attr('name',''+idslideshow+'_data-speed'+del_+'-'+l);
+						
+						var inputstart_lastnamenesbae=chk(".nesbase"+del_+l).find('input[name='+idslideshow+'_data-start'+new_+'-'+l+']');
+						inputstart_lastnamenesbae.attr('name',''+idslideshow+'_data-start'+del_+'-'+l);
+						
+						var selecteasing_lastnamenesbae=chk(".nesbase"+del_+l).find('select[name='+idslideshow+'_data-easing'+new_+'-'+l+']');
+						selecteasing_lastnamenesbae.attr('name',''+idslideshow+'_data-easing'+del_+'-'+l);
+						
+						var inputclass_lastnamenesbae=chk(".nesbase"+del_+l).find('input[name='+idslideshow+'_class'+new_+'-'+l+']');
+						inputclass_lastnamenesbae.attr('name',''+idslideshow+'_class'+del_+'-'+l);
+						chk(".nesbase"+del_+l+" .icon-dell").attr('onclick','del('+idslideshow+','+del_+','+l+')');
+						
+					}
+					
+			}
+		}
+		
+		});
+}
+</script>
